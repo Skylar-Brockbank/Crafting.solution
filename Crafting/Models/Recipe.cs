@@ -1,11 +1,13 @@
+using System.Collections.Generic;
+
 namespace Crafting.Models
 {
   public class Recipe
   {
-    public Item()
+    public Recipe()
     {
       this.Ingredients = new HashSet<Ingredient>();
-      this.Products = new HashSet<Ingredient>();
+      this.Products = new HashSet<Product>();
     }
 
     public int RecipeId {get; set;}

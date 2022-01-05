@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Crafting.Models
 {
   public class Item
@@ -5,7 +7,7 @@ namespace Crafting.Models
     public Item()
     {
       this.Ingredients = new HashSet<Ingredient>();
-      this.Products = new HashSet<Ingredient>();
+      this.Products = new HashSet<Product>();
     }
 
     public int ItemId {get; set;}
