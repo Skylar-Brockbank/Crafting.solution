@@ -2,9 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>University Registrar</title>
+  <title>Crafting System</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="~/css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
   <div class="container">
@@ -12,7 +13,7 @@
     <div class="link-bar">
       @Html.ActionLink("Home", "Index", "Home")
       @Html.ActionLink("See Item Index", "Index", "Items")
-      @Html.ActionLink("See Recipe Index", "Index", "Recipe")
+      @Html.ActionLink("See Recipe Index", "Create", "Recipes")
     </div>
   </div>
 </body>

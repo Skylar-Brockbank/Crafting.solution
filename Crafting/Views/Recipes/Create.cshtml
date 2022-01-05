@@ -1,13 +1,53 @@
-@* @{
+@{
   Layout = "_Layout";
 }
 
+@using Crafting.Models;
 @model Crafting.Models.Recipe;
 
 @using (Html.BeginForm())
 {
     @Html.LabelFor(model => model.Name)
-    @Html.TextBoxFor(model => model.Name)
+    @Html.TextBoxFor(model => model.Name, new{@required = "required"})
+    @Html.Label("Add an item as an ingredient (recipe input) or product (recipe output):")
+    <select id="item-to-add">
+      @foreach(Item item in ViewBag.Items)
+      {
+        <option value=@item.ItemId>@item.ItemName</option>
+      }
+    </select>
+    <input id="qty-to-add" type="number" min="1" step="1" />
+    <button id="ingredient-add" type="button">Add ingredient</button>
+    <button id="product-add" type="button">Add product</button>
+    <h4>Ingredients:</h4>
+    <div id="ingredients"></div>
+    <input type="hidden" name="0" value="0" />
+    <h4>Products</h4>
+    <div id="products"></div>
+
     <input type="submit" value="Add recipe" />
+
 }
-*@
+
+@* src="~/scripts/recipepicker.js" *@
+<script>
+  $("#ingredient-add").on("click", () => {
+    let ingredient = $("#item-to-add option:selected");
+    let qty = $("#qty-to-add").val();
+    $("#ingredients").append(`
+      <p>${ingredient.text()} Qty: ${qty}</p>
+      <input type="hidden" name="${ingredient.val()}" value="${qty}" />
+    `);
+  });
+
+  $("#product-add").on("click", () => {
+    let product = $("#item-to-add option:selected");
+    let qty = $("#qty-to-add").val();
+    $("#products").append(`
+      <p>${product.text()} Qty: ${qty}</p>
+      <input type="hidden" name="${product.val()}" value="${qty}" />
+    `);
+  });
+  
+</script>
+
