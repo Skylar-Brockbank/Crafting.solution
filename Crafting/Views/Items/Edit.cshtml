@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Crafting.Models.Item;
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.ItemId)
+  @Html.LabelFor(model => model.ItemName, "Name:")
+  @Html.EditorFor(model => model.ItemName)
+  @Html.LabelFor(model => model.Quantity, "Adjust Quantity:")
+  @Html.TextBoxFor(model => model.Quantity, new {@type = "number", @Value = Model.Quantity, @min = "0", @step = "1"})
+  <input type="submit" value="Submit changes" />
+}
