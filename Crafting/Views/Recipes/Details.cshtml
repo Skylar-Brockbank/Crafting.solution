@@ -1,0 +1,51 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Crafting.Models;
+@using System.Collections.Generic;
+
+<h3>@Model.Name</h3>
+
+<h4>Ingredients</h4>
+<ul>
+  @{
+    Dictionary<string, int> ingredients = new Dictionary<string, int> {};
+    foreach (Ingredient ingredient in Model.Ingredients)
+    {
+      if (ingredients.ContainsKey(ingredient.Item.ItemName))
+      {
+        ingredients[ingredient.Item.ItemName] += 1;
+      }
+      else
+      {
+        ingredients.Add(ingredient.Item.ItemName, 1);
+      }
+    }
+    foreach (var item in ingredients)
+    {
+      <li>@item.Key Qty: @item.Value</li>
+    }
+  }
+</ul>
+<h4>Products</h4>
+<ul>
+  @{
+    Dictionary<string, int> products = new Dictionary<string, int> {};
+    foreach (Product product in Model.Products)
+    {
+      if (products.ContainsKey(product.Item.ItemName))
+      {
+        products[product.Item.ItemName] += 1;
+      }
+      else
+      {
+        products.Add(product.Item.ItemName, 1);
+      }
+    }
+    foreach (var item in products)
+    {
+      <li>@item.Key Qty: @item.Value</li>
+    }
+  }
+</ul>

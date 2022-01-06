@@ -5,9 +5,9 @@ namespace Crafting.Models
   public abstract class ItemRecipe
   {
     public int ItemId {get; set;}
-    public virtual Item Item {get;}
+    public virtual Item Item {get; set;}
     public int RecipeId { get; set;}
-    public virtual Recipe Recipe {get;}
+    public virtual Recipe Recipe {get; set;}
   } 
 
   public class Ingredient : ItemRecipe

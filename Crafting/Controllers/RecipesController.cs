@@ -55,6 +55,16 @@ namespace Crafting.Controllers
       return RedirectToAction("Index");
     }
 
+    public ActionResult Details(int id)
+    {
+      Recipe target = _db.Recipes
+        .Include(recipe => recipe.Ingredients)
+        .ThenInclude(ingredient => ingredient.Item)
+        .Include(recipe => recipe.Products) 
+        .ThenInclude(product => product.Item)
+        .FirstOrDefault(recipe => recipe.RecipeId == id);
+      return View(target);
+    }
 
     // public ActionResult Edit(int id)
     // {
