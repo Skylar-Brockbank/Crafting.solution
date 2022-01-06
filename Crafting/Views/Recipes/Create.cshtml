@@ -18,8 +18,7 @@
 <button id="ingredient-add" type="button">Add ingredient</button>
 <button id="product-add" type="button">Add product</button>
 
-@using (Html.BeginForm())
-{
+<form id = "main-form" action="Create" method="POST">
     @Html.LabelFor(model => model.Name, "Name the Recipe:")
     @Html.TextBoxFor(model => model.Name, new{@required = "required"})
     
@@ -28,8 +27,8 @@
     <h4>Products</h4>
     <div id="products"></div>
 
-    <input type="submit" value="Add recipe" />
-}
+    <input id="final-check-button" type="submit" value="Add recipe" />
+</form>
 
 @* src="~/scripts/recipepicker.js" *@
 <script>
@@ -70,6 +69,17 @@
       attachDelete($(`#delete-entry-${count}`));
     }
   });
+
+  $("#final-check-button").on("click", (event) => {
+    event.preventDefault();
+    if (!$("#products").is(':empty') && !$("#ingredients").is(':empty'))
+    {
+      $("#main-form").submit();
+    } else {
+      alert("Though nothing comes from nothing, nothing is not a something. Try adding ingredients or products.");
+    }
+    
+  })
 
   function attachDelete(jqueryObj) {
     jqueryObj.on("click", () => {

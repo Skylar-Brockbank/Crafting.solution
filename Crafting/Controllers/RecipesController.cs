@@ -33,6 +33,20 @@ namespace Crafting.Controllers
       _db.Recipes.Add(recipe);
       _db.SaveChanges();
       int temp;
+      // bool ProductCheck = false;
+      // bool IngredientCheck = false;
+      // foreach(var check in joins)
+      // {
+      //   if(check.Key[0]=='P')
+      //   {
+      //     ProductCheck = true;
+      //   }
+      //   else if (check.Key[0]=='I')
+      //   {
+      //     IngredientCheck = true;
+      //   }
+      // }
+
       foreach(var join in joins)
       {
         Console.WriteLine("Key: {0} Value {1}", join.Key, join.Value);
