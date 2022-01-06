@@ -16,10 +16,10 @@ namespace Crafting.Controllers
       _db = db;
     }
     
-    // public ActionResult Index()
-    // {
-    //   return View();
-    // }
+    public ActionResult Index()
+    {
+      return View(_db.Recipes.ToList());
+    }
 
     public ActionResult Create()
     {
@@ -30,12 +30,34 @@ namespace Crafting.Controllers
     [HttpPost]
     public ActionResult Create(Recipe recipe, IFormCollection joins)
     {
-      Console.WriteLine(recipe);
+      _db.Recipes.Add(recipe);
+      _db.SaveChanges();
+      int temp = 0;
+      bool tableSwitch = true;
       foreach(var join in joins)
       {
-        Console.WriteLine(join);
+        if(int.TryParse(join.Key, out temp))
+        {
+          if(join.Key == "0")
+          {
+            tableSwitch = false;
+            break;
+          }
+          for(int i = 0; i < int.Parse(join.Value); i++)
+          {
+            if(tableSwitch)
+            {
+              _db.Ingredients.Add(new Ingredient {RecipeId = recipe.RecipeId, ItemId = int.Parse(join.Key)});
+            } 
+            else
+            {
+              _db.Products.Add(new Product {RecipeId = recipe.RecipeId, ItemId = int.Parse(join.Key)});
+            }
+          }
+        }
       }
-      return RedirectToAction("Create");
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
 
 

@@ -12,6 +12,7 @@ namespace Crafting.Models
 
     public int RecipeId {get; set;}
     public string Name {get; set;}
+  
     public virtual ICollection<Ingredient> Ingredients {get;}
     public virtual ICollection<Product> Products {get;}
   }
