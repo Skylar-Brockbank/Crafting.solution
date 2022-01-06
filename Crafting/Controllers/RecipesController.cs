@@ -32,26 +32,27 @@ namespace Crafting.Controllers
     {
       _db.Recipes.Add(recipe);
       _db.SaveChanges();
-      int temp = 0;
-      bool tableSwitch = true;
+      int temp;
       foreach(var join in joins)
       {
-        if(int.TryParse(join.Key, out temp))
+        Console.WriteLine("Key: {0} Value {1}", join.Key, join.Value);
+        if(int.TryParse(join.Value, out temp))
         {
-          if(join.Key == "0")
-          {
-            tableSwitch = false;
-            break;
-          }
           for(int i = 0; i < int.Parse(join.Value); i++)
           {
-            if(tableSwitch)
+            if (join.Key[0] == 'I')
             {
-              _db.Ingredients.Add(new Ingredient {RecipeId = recipe.RecipeId, ItemId = int.Parse(join.Key)});
-            } 
-            else
+              string itemId = join.Key;
+              itemId = itemId.Remove(0, 1);
+              Console.WriteLine(itemId);
+              _db.Ingredients.Add(new Ingredient {RecipeId = recipe.RecipeId, ItemId = int.Parse(itemId)});
+            }
+            else if (join.Key[0] == 'P')
             {
-              _db.Products.Add(new Product {RecipeId = recipe.RecipeId, ItemId = int.Parse(join.Key)});
+              string itemId = join.Key;
+              itemId = itemId.Remove(0, 1);
+              Console.WriteLine(itemId);
+              _db.Products.Add(new Product {RecipeId = recipe.RecipeId, ItemId = int.Parse(itemId)});
             }
           }
         }

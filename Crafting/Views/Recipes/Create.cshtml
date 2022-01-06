@@ -5,49 +5,76 @@
 @using Crafting.Models;
 @model Crafting.Models.Recipe;
 
+<h2>Create a New Recipe:</h2>
+
+@Html.Label("Add an item as an ingredient (recipe input) or product (recipe output):")
+<select id="item-to-add">
+  @foreach(Item item in ViewBag.Items)
+  {
+    <option value=@item.ItemId>@item.ItemName</option>
+  }
+</select>
+<input id="qty-to-add" type="number" value = "1" min="1" step="1"/>
+<button id="ingredient-add" type="button">Add ingredient</button>
+<button id="product-add" type="button">Add product</button>
+
 @using (Html.BeginForm())
 {
-    @Html.LabelFor(model => model.Name)
+    @Html.LabelFor(model => model.Name, "Name the Recipe:")
     @Html.TextBoxFor(model => model.Name, new{@required = "required"})
-    @Html.Label("Add an item as an ingredient (recipe input) or product (recipe output):")
-    <select id="item-to-add">
-      @foreach(Item item in ViewBag.Items)
-      {
-        <option value=@item.ItemId>@item.ItemName</option>
-      }
-    </select>
-    <input id="qty-to-add" type="number" min="1" step="1" />
-    <button id="ingredient-add" type="button">Add ingredient</button>
-    <button id="product-add" type="button">Add product</button>
+    
     <h4>Ingredients:</h4>
     <div id="ingredients"></div>
-    <input type="hidden" name="0" value="0" />
     <h4>Products</h4>
     <div id="products"></div>
 
     <input type="submit" value="Add recipe" />
-
 }
 
 @* src="~/scripts/recipepicker.js" *@
 <script>
+  let count = 0;
+
   $("#ingredient-add").on("click", () => {
-    let ingredient = $("#item-to-add option:selected");
-    let qty = $("#qty-to-add").val();
-    $("#ingredients").append(`
-      <p>${ingredient.text()} Qty: ${qty}</p>
-      <input type="hidden" name="${ingredient.val()}" value="${qty}" />
-    `);
+    let qty = $("#qty-to-add");
+    if (qty.val() == "" || qty.val() < 1) {
+      alert("Must enter a quantity of one or greater.")
+    } else {
+      count++;
+      let ingredient = $("#item-to-add option:selected");
+      $("#ingredients").append(`
+        <div>
+        <p>${ingredient.text()} Qty: ${qty.val()}</p>
+        <input type="hidden" name="I${ingredient.val()}" value="${qty.val()}" />
+        <button id="delete-entry-${count}" type="button">Delete this ingredient</button>
+        </div>
+      `);
+      attachDelete($(`#delete-entry-${count}`));
+    }
   });
 
   $("#product-add").on("click", () => {
-    let product = $("#item-to-add option:selected");
-    let qty = $("#qty-to-add").val();
-    $("#products").append(`
-      <p>${product.text()} Qty: ${qty}</p>
-      <input type="hidden" name="${product.val()}" value="${qty}" />
-    `);
+    let qty = $("#qty-to-add");
+    if (qty.val() == "" || qty.val() < 1) {
+      alert("Must enter a quantity of one or greater.")
+    } else {
+      count++;
+      let product = $("#item-to-add option:selected");
+      $("#products").append(`
+        <div>
+        <p>${product.text()} Qty: ${qty.val()}</p>
+        <input type="hidden" name="P${product.val()}" value="${qty.val()}" />
+        <button id="delete-entry-${count}" type="button">Delete this product</button>
+        </div>
+      `);
+      attachDelete($(`#delete-entry-${count}`));
+    }
   });
-  
+
+  function attachDelete(jqueryObj) {
+    jqueryObj.on("click", () => {
+      jqueryObj.parent().remove();
+    });
+  }
 </script>
 
