@@ -1,0 +1,78 @@
+@model Crafting.Models.Recipe;
+@using Crafting.Models;
+
+@if (@Model != null)
+{
+<h4>Ingredients</h4>
+<ul>
+  @{
+    Dictionary<string, int> ingredients = new Dictionary<string, int> {};
+    foreach (Ingredient ingredient in Model.Ingredients)
+    {
+      if (ingredients.ContainsKey(ingredient.Item.ItemName))
+      {
+        ingredients[ingredient.Item.ItemName] += 1;
+      }
+      else
+      {
+        ingredients.Add(ingredient.Item.ItemName, 1);
+      }
+    }
+    foreach (var item in ingredients)
+    {
+      int inventoryValue=0;
+      String target = item.Key;
+      @foreach(Ingredient ingredient in Model.Ingredients)
+      {
+        if(target == ingredient.Item.ItemName)
+        {
+          inventoryValue = ingredient.Item.Quantity;
+        }
+      }
+      <li>@item.Key : @inventoryValue / @item.Value</li>
+
+    }
+  }
+</ul>
+<h4>Products</h4>
+<ul>
+  @{
+    Dictionary<string, int> products = new Dictionary<string, int> {};
+    foreach (Product product in Model.Products)
+    {
+      if (products.ContainsKey(product.Item.ItemName))
+      {
+        products[product.Item.ItemName] += 1;
+      }
+      else
+      {
+        products.Add(product.Item.ItemName, 1);
+      }
+    }
+    foreach (var item in products)
+    {
+      <li>@item.Key Qty: @item.Value</li>
+    }
+  }
+</ul>
+
+
+@*for each ingredient relationship, check to see if the inventory quantity is greater than the recipy requirement*@
+bool craftable = true;
+@foreach(Ingredient ingredient in Model.Ingredients)
+{
+  if(ingredient.Item.Quantity < ingredients[ingredient.Item.ItemName])
+  {
+    craftable = false;
+    break;
+  }
+}
+if(craftable)
+{
+  <form action="Craft/@Model.RecipeId" Method = "POST">
+    @* <hidden id = "id" value=@Model.RecipeId> *@
+    <button type="submit">Craft</button>
+  </form>
+}
+
+}

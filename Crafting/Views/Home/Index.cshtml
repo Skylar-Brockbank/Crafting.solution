@@ -1,6 +1,48 @@
 @{
   Layout = "_Layout";
 }
+@using Crafting.Models;
+@*a list of items where your quantity is greater than 0*@
+<h2>Your Inventory</h2>
+<ul>
+  @foreach(Item item in ViewBag.Inventory)
+  {
+    <li>@item.ItemName : @item.Quantity</li>
+  }
+</ul>
+
+@*a dropdown filled with recipes*@
+@*a reactive text box that shows the recipe requirements and products*@
+
+<div id="recipe-control-box">
+  <form>
+    <label>Active Recipe: 
+      <select id="active-recipe">
+        @foreach(Recipe recipe in ViewBag.Recipes)
+        {
+          <option Value =@recipe.RecipeId>@recipe.Name</option>
+        }
+      </select>
+    </label>
+  </form>
+
+  <div id="recipe-details">
+    @Html.Partial("_RecipeDetails")
+  </div>
+
+  @*Jquery should dump info here.
+    on each ingredient the quantity in inventory/quantity required (could be green if inv>=req else red)
+
+    make button only gets added if you have the required materials.
+
+    get recipe ID from select box, (active-recipe)
+    get recipe quantities from database
+    get inventory quantities from database
+    check to see if inventory quantities are greater than recipe
+  *@
+</div>
 
 <h1>Welcome Home</h1>
 <h3>wanna go somewhere else?</h3>
+
+<script src="~/Scripts/MainCrafting.js"></script>

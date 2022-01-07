@@ -18,7 +18,7 @@ namespace Crafting.Models
 
     public bool CheckQuantity(int quantity)
     {
-      return quantity > Quantity;
+      return quantity < Quantity;
     }
 
     public void UseQuantity(int quantity)
